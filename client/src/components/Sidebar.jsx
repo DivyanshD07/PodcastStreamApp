@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
-import { HomeRounded, CloseRounded } from '@mui/icons-material';
+import { HomeRounded, CloseRounded, LogoutRounded, SearchRounded, FavoriteRounded, UploadRounded, LightModeRounded } from '@mui/icons-material';
+import { FaMicrophone } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 
 const MenuContainer = styled.div`
     display: flex;
-    // flex: 0.5
+    flex: 0.3;
     flex-direction: column;
     height: 100vh;
     background-color: ${({ theme }) => theme.bg};
@@ -19,14 +21,20 @@ const MenuContainer = styled.div`
     // }
 `;
 const Logo = styled.div`
-    // width: 100% 
+    width: 100% ;
     color: ${({ theme }) => theme.primary};
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 6px;
     font-weight: bold;
     font-size: 20px;
     margin: 16px 0px;
 `;
+
+// const Image = styled.div`
+//     height: 40px;
+// `;
 
 const Flex = styled.div`
     display: flex;
@@ -49,30 +57,91 @@ const Elements = styled.div`
     align-items: center;
     gap: 12px;
     cursor: pointer;
-    color: ${({ theme }) => theme.text_secondary };
-    width: 100%;
+    text-decoration: none !important;
+    color: ${({ theme }) => theme.text_secondary};
     &:hover {
-        background-color: ${({ theme }) => theme.bgLight };
+        background-color: ${({ theme }) => theme.text_secondary + 50};
     }
-        `;
+`;
 const NavText = styled.div`
     padding: 12px 0px;
-
+    text-decoration: none !important;
 `;
+const HR = styled.div`
+    width: 100%;
+    height: 2px;
+    background-color: ${({ theme }) => theme.text_secondary + 50};
+    margin: 10px 0px;
+`;
+
+const menuItems = [
+    {
+        link: "/",
+        name: "Dashboard",
+        icon: <HomeRounded />
+    },
+    {
+        link: "/search",
+        name: "Search",
+        icon: <SearchRounded />
+    },
+    {
+        link: "/favourites",
+        name: "Favourites",
+        icon: <FavoriteRounded />
+    },
+]
+
+const button = [
+    {
+        fun: () => console.log("upload"),
+        name: "Upload",
+        icon: <UploadRounded />
+    },
+    {
+        fun: () => console.log("lightmode"),
+        name: "LightMode",
+        icon: <LightModeRounded />
+    },
+    {
+        fun: () => console.log("log out"),
+        name: "Log Out",
+        icon: <LogoutRounded />
+    },
+]
 
 const Sidebar = () => {
     return (
         <MenuContainer>
             <Flex>
-                <Logo>Podstream</Logo>
+                <Logo>
+                    <FaMicrophone className="bg-white" />
+                    Podstream
+                </Logo>
                 <Close>
                     <CloseRounded />
                 </Close>
             </Flex>
-            <Elements>
-                <HomeRounded />
-                <NavText>Dashboard</NavText>
-            </Elements>
+            {
+                menuItems.map((item) => (
+                    <Link TO={item.link}>
+                        <Elements>
+                            {item.icon}
+                            <NavText>{item.name}</NavText>
+                        </Elements>
+                    </Link>
+                ))
+            }
+            <HR />
+            {
+                button.map((item) => (
+                    <Elements onClick={item.fun}>
+                        {item.icon}
+                        <NavText>{item.name}</NavText>
+                    </Elements>
+                ))
+            }
+
         </MenuContainer>
     )
 }
