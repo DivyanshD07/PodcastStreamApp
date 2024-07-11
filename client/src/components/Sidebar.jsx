@@ -1,31 +1,31 @@
 import React from 'react';
 import styled from "styled-components";
-import { HomeRounded, CloseRounded, LogoutRounded, SearchRounded, FavoriteRounded, UploadRounded, LightModeRounded } from '@mui/icons-material';
+import { HomeRounded, CloseRounded, LogoutRounded, SearchRounded, FavoriteRounded, UploadRounded, LightModeRounded, DarkModeRounded, CloudUploadRounded } from '@mui/icons-material';
 import { FaMicrophone } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 
 const MenuContainer = styled.div`
     display: flex;
-    flex: 0.3;
+    flex: 0.5;
     flex-direction: column;
     height: 100vh;
     background-color: ${({ theme }) => theme.bg};
     color: ${({ theme }) => theme.text_primary};
-    // @media (max-width: 1100px) {
-    //     position: fixed;
-    //     z-index: 1000;
-    //     width: 100%;
-    //     max-width: 250px;
-    //     left: ${({ setMenuOpen }) => (setMenuOpen ? "0" : "-100%")};
-    //     transition: 0.3s ease-in-out;
-    // }
+    @media (max-width: 1100px) {
+        position: fixed;
+        z-index: 1000;
+        width: 100%;
+        max-width: 250px;
+        left: ${({ menuOpen }) => (menuOpen ? "0" : "-100%")};
+        transition: 0.3s ease-in-out;
+    }
 `;
 const Logo = styled.div`
-    width: 100% ;
+    width: 100%;
     color: ${({ theme }) => theme.primary};
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
     gap: 6px;
     font-weight: bold;
     font-size: 20px;
@@ -37,10 +37,12 @@ const Logo = styled.div`
 // `;
 
 const Flex = styled.div`
+    width:100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0px 12px;
 `;
 
 const Close = styled.div`
@@ -74,51 +76,54 @@ const HR = styled.div`
     margin: 10px 0px;
 `;
 
-const menuItems = [
-    {
-        link: "/",
-        name: "Dashboard",
-        icon: <HomeRounded />
-    },
-    {
-        link: "/search",
-        name: "Search",
-        icon: <SearchRounded />
-    },
-    {
-        link: "/favourites",
-        name: "Favourites",
-        icon: <FavoriteRounded />
-    },
-]
 
-const button = [
-    {
-        fun: () => console.log("upload"),
-        name: "Upload",
-        icon: <UploadRounded />
-    },
-    {
-        fun: () => console.log("lightmode"),
-        name: "LightMode",
-        icon: <LightModeRounded />
-    },
-    {
-        fun: () => console.log("log out"),
-        name: "Log Out",
-        icon: <LogoutRounded />
-    },
-]
 
-const Sidebar = () => {
+const Sidebar = ({ menuOpen, setMenuOpen, setDarkMode, darkMode }) => {
+
+    const menuItems = [
+        {
+            link: "/",
+            name: "Dashboard",
+            icon: <HomeRounded />
+        },
+        {
+            link: "/search",
+            name: "Search",
+            icon: <SearchRounded />
+        },
+        {
+            link: "/favourites",
+            name: "Favourites",
+            icon: <FavoriteRounded />
+        },
+    ]
+
+    const button = [
+        {
+            fun: () => console.log("upload"),
+            name: "Upload",
+            icon: <CloudUploadRounded />
+        },
+        {
+            fun: () => setDarkMode(!darkMode),
+            name: darkMode ? "LightMode" : "DarkMode",
+            icon: darkMode ? <LightModeRounded /> : <DarkModeRounded />,
+        },
+        {
+            fun: () => console.log("log out"),
+            name: "Log Out",
+            icon: <LogoutRounded />
+        },
+    ]
+
     return (
-        <MenuContainer>
+        <MenuContainer menuOpen={menuOpen}>
             <Flex>
                 <Logo>
                     <FaMicrophone className="bg-white" />
                     Podstream
                 </Logo>
-                <Close>
+                <Close onClick={() => setMenuOpen(false)}>
                     <CloseRounded />
                 </Close>
             </Flex>
