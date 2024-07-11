@@ -4,7 +4,14 @@ import { lightTheme, darkTheme } from "./utils/Themes"
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+// import { Dashboard } from "@mui/icons-material";
+import Dashboard from "./pages/Dashboard";
+import Search from "./pages/Search";
+import Favourites from "./pages/Favourite";
+import PodcastDetails from "./pages/PodcastDetails";
+import DisplayPodcast from "./pages/DisplayPodcast";
+import Profile from "./pages/Profile";
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +50,14 @@ function App() {
               menuOpen={menuOpen}
               setMenuOpen={setMenuOpen}
             />
-            Podstream
+            <Routes>
+              <Route path="/" exact element={<Dashboard/>} />
+              <Route path="/search" exact element={<Search/>} />
+              <Route path="/favourites" exact element={<Favourites/>} />
+              <Route path="/profile" exact element={<Profile/>} />
+              <Route path="/podcast/:id" exact element={<PodcastDetails/>} />
+              <Route path="/showpodcasts/:type" exact element={<DisplayPodcast/>} />
+            </Routes>
           </Frame>
         </Container>
       </BrowserRouter>
