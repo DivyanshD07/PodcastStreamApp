@@ -92,7 +92,7 @@ const Sidebar = ({ menuOpen, setMenuOpen, setDarkMode, darkMode }) => {
             icon: <SearchRounded />
         },
         {
-            link: "/favourites",
+            link: "/favourite",
             name: "Favourites",
             icon: <FavoriteRounded />
         },
@@ -129,7 +129,7 @@ const Sidebar = ({ menuOpen, setMenuOpen, setDarkMode, darkMode }) => {
             </Flex>
             {
                 menuItems.map((item) => (
-                    <Link TO={item.link}>
+                    <Link to={item.link}>
                         <Elements>
                             {item.icon}
                             <NavText>{item.name}</NavText>
