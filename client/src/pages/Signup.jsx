@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Container = styled.form`
+
+const Container = styled.div`
     color: ${({ theme }) => theme.text_secondary};
     width: 100%;   
     display: flex;
@@ -18,8 +19,10 @@ const Top = styled.div`
 const Input = styled.div``;
 const Heading = styled.div``;
 const InputContainer = styled.div``;
-const Remember = styled.div``;
 const Button = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
     background: ${({ theme }) => theme.button};
     &:hover {
         color: ${({ theme }) => theme.text_primary}
@@ -33,43 +36,71 @@ const Login = styled.div`
     color: blue;
 `;
 
-const Signup = () => {
-    return (
-        <Container>
-            <Top>Sign up</Top>
-            <Input>
-                <Heading>First name</Heading>
-                <InputContainer>
-                    <input type="name" placeholder='Enter firstname' />
-                </InputContainer>
-            </Input>
-            <Input>
-                <Heading>Last name</Heading>
-                <InputContainer>
-                    <input type="name" placeholder='Enter lastname' />
-                </InputContainer>
-            </Input>
-            <Input>
-                <Heading>Email address</Heading>
-                <InputContainer>
-                    <input type="email" placeholder='Enter email' />
-                </InputContainer>
-            </Input>
-            <Input>
-                <Heading>Password</Heading>
-                <InputContainer>
-                    <input type="password" placeholder='Enter password' />
-                </InputContainer>
-            </Input>
-            <Button>
-                <button>Submit</button>
-            </Button>
-            <SignupLink>
-                Already a user?<Link to={"/login"}> <Login>Sign in</Login>
-                </Link>
-            </SignupLink>
-        </Container>
-    )
-}
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 
-export default Signup
+`;
+
+
+export default class Signup extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+                fname: "",
+                lname: "",
+                email: "",
+                password: ""
+            };
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    handleSubmit(e) {
+        e.preventDefault();
+        const { fname, lname, email, password } = this.state;
+        console.log(fname, lname, email, password);
+    }
+    
+
+    render() {
+        return (
+            <Container>
+                <Top>Sign up</Top>
+                <Form onSubmit={this.handleSubmit}>
+                    <Input>
+                        <Heading>First name</Heading>
+                        <InputContainer>
+                            <input type="text" placeholder='Enter firstname' onChange={(e) => this.setState({ fname: e.target.value })} />
+                        </InputContainer>
+                    </Input>
+                    <Input>
+                        <Heading>Last name</Heading>
+                        <InputContainer>
+                            <input type="text" placeholder='Enter lastname' onChange={(e) => this.setState({ lname: e.target.value })} />
+                        </InputContainer>
+                    </Input>
+                    <Input>
+                        <Heading>Email address</Heading>
+                        <InputContainer>
+                            <input type="email" placeholder='Enter email' onChange={(e) => this.setState({ email: e.target.value })} />
+                        </InputContainer>
+                    </Input>
+                    <Input>
+                        <Heading>Password</Heading>
+                        <InputContainer>
+                            <input type="password" placeholder='Enter password' onChange={(e) => this.setState({ password: e.target.value })} />
+                        </InputContainer>
+                    </Input>
+                    <Button>
+                        <button type='submit'>Submit</button>
+                    </Button>
+                </Form>
+                <SignupLink>
+                    Already a user?<Link to={"/login"}> <Login>Sign in</Login>
+                    </Link>
+                </SignupLink>
+            </Container>
+        )
+    }
+}
