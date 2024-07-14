@@ -3,8 +3,9 @@ const app = express();
 // const mongoose = require("mongodb");
 const { default: mongoose } = require("mongoose");
 app.use(express.json());
+require("dotenv").config();
 
-const mongoUrl = "mongodb+srv://devdhyani34:2R68gJklOSWRaa1m@cluster0.sqexeol.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoUrl = process.env.mongoUrl;
 const connectDB = async() => {
     try {
         const conn = await mongoose.connect(mongoUrl, {
