@@ -1,5 +1,6 @@
 import { Menu, PersonRounded } from '@mui/icons-material';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
 const NavBarDiv = styled.div`
@@ -47,7 +48,9 @@ const Navbar = ({menuOpen, setMenuOpen}) => {
 
             <ButtonDiv>
                 <PersonRounded />
-                Login
+                <Link to={"/login"}>
+                    Login
+                </Link>
             </ButtonDiv>
         </NavBarDiv>
     )

@@ -12,6 +12,8 @@ import Favourite from "./pages/Favourite";
 import PodcastDetails from "./pages/PodcastDetails";
 import DisplayPodcast from "./pages/DisplayPodcast";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const Container = styled.div`
   display: flex;
@@ -57,6 +59,8 @@ function App() {
               <Route path="/profile" exact element={<Profile/>} />
               <Route path="/podcast/:id" exact element={<PodcastDetails/>} />
               <Route path="/showpodcasts/:type" exact element={<DisplayPodcast/>} />
+              <Route path="/login" exact element={<Login />} />
+              <Route path="/signup" exact element={<Signup />} />
             </Routes>
           </Frame>
         </Container>
