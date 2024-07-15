@@ -4,8 +4,18 @@ const app = express();
 const { default: mongoose } = require("mongoose");
 app.use(express.json());
 require("dotenv").config();
+const cors = require("cors");
+app.use(cors());
+const bcrypt = require("bcryptjs");
 
 const mongoUrl = process.env.mongoUrl;
+
+if(!mongoUrl){
+    console.log("url not defined");
+    process.exit(1);
+}
+
+
 const connectDB = async() => {
     try {
         const conn = await mongoose.connect(mongoUrl, {
@@ -50,12 +60,21 @@ const User = mongoose.model("UserInfo");
 
 app.post("/register", async(req, res) => {
 
-    const {name, email, phoneNo} = req.body;
+    const {fname, lname, email, password} = req.body;
+    const encyptPassword = await bcrypt.hash(password, 10);
+
     try{
+
+        const oldUser = await User.findOne({ email });
+        if(oldUser) {
+            return response.send({error :"User exists"});
+        }
+
         await User.create({
-            uname: name,
+            fname,
+            lname,
             email,
-            phoneNo,
+            password: encyptPassword,
         }
         );
         res.send({status:"ok"});
