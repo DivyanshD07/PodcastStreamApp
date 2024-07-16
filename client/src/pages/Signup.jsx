@@ -56,6 +56,7 @@ export default class Signup extends Component {
             };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    
     handleSubmit(e) {
         e.preventDefault();
         const { fname, lname, email, password } = this.state;

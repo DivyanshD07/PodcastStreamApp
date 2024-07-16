@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from "styled-components";
 import {Link} from 'react-router-dom';
 
@@ -33,34 +33,67 @@ const Register = styled.div`
     color: blue;
 `;
 
-const Login = () => {
-  return (
-    <Container>
-        <Top>Sign In</Top>
-        <Input>
-            <Heading>Email address</Heading>
-            <InputContainer>
-                <input type="email" placeholder='Enter email' />
-            </InputContainer>
-        </Input>
-        <Input>
-            <Heading>Password</Heading>
-            <InputContainer>
-                <input type="password" placeholder='Enter password' />
-            </InputContainer>
-        </Input>
-        <Remember>
-            Remember me
-        </Remember>
-        <Button>
-            <button>Submit</button>
-        </Button>
-        <SignupLink>
-                Not a user?<Link to={"/signup"}> <Register>Register</Register>
-            </Link>
-        </SignupLink>
-    </Container>
-  )
-}
 
-export default Login
+
+
+export default class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: "",
+            password: ""
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        const { email, password } = this.state;
+        fetch("http://localhost:5000/login" , {
+            method: "POST",
+            crossDomain: true,
+            headers: {
+                "Content-type": "application/json",
+                Accept: "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+            body: JSON.stringify ({
+                email,
+                password
+            }),
+        }).then((res) => res.json())
+        .then((data) => {
+            console.log(data, "user signed in");
+        })
+    }
+
+    render() {
+        return (
+            <Container onSubmit={ this.handleSubmit }>
+                <Top>Sign In</Top>
+                <Input>
+                    <Heading>Email address</Heading>
+                    <InputContainer>
+                        <input type="email" placeholder='Enter email' onChange={(e) => this.state({ email: e.target.value })} />
+                    </InputContainer>
+                </Input>
+                <Input>
+                    <Heading>Password</Heading>
+                    <InputContainer>
+                        <input type="password" placeholder='Enter password' onChange={(e) => this.state({ password: e.target.value })} />
+                    </InputContainer>
+                </Input>
+                <Input>
+                    <input type="checkbox" />Remember me
+                </Input>
+                <Button>
+                    <button type='submit'>Submit</button>
+                </Button>
+                <SignupLink>
+                        Not a user?<Link to={"/signup"}> <Register>Register</Register>
+                    </Link>
+                </SignupLink>
+            </Container>
+        )
+    }
+}

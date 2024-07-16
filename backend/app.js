@@ -7,6 +7,11 @@ require("dotenv").config();
 const cors = require("cors");
 app.use(cors());
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = "ajknfkjanfenie[](){aefjnnfedkjnd@!$@#$%^&*()jkgrfsnakj<>?123654789";
+
+
 
 const mongoUrl = process.env.mongoUrl;
 
@@ -64,7 +69,6 @@ app.post("/register", async(req, res) => {
     const encyptPassword = await bcrypt.hash(password, 10);
 
     try{
-
         const oldUser = await User.findOne({ email });
         if(oldUser) {
             return response.send({error :"User exists"});
@@ -83,6 +87,24 @@ app.post("/register", async(req, res) => {
         res.send({status:"database wala fucked"});
     }
 })
+
+app.post("/login", async(res, req) => {
+    const [email, password] = req.body;
+    const user = await User.findOne({ email });
+    if(!user) {
+        return res.json({ error : "User not found" });
+    }
+    if(await bcrypt.compare(password, user.password)) {
+        const token = jwt.sign({}, JWT_SECRET);
+
+        if(res.status(201)) { //201 means request is successful
+            return res.json({ status: "ok", data: token});
+        } else {
+            return res.json({ status: "error" });
+        }
+    }
+    res.json({ status: "error", error: "Invalid Password" });
+});
 
 
 
