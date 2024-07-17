@@ -44,21 +44,6 @@ connectDB().then((conn) => {
     })
 })
 
-app.post("/post", async(req, res) => {
-    console.log(req.body);
-    const {data} = req.body;
-    try {
-        if(data == "divyansh"){
-            res.send({status: "ok"});
-        }
-        else{
-            res.send({status:"fucked"});
-        }
-    } catch(error) {
-        res.send({status:"intensely fucked"});
-    }
-});
-
 require("./models/userDetails");
 
 const User = mongoose.model("UserInfo");
@@ -71,7 +56,7 @@ app.post("/register", async(req, res) => {
     try{
         const oldUser = await User.findOne({ email });
         if(oldUser) {
-            return response.send({error :"User exists"});
+            return res.send({error: "User exists"});
         }
 
         await User.create({
@@ -81,10 +66,10 @@ app.post("/register", async(req, res) => {
             password: encyptPassword,
         }
         );
-        res.send({status:"ok"});
+        res.send({status: "ok"});
     }catch(error){
         console.log(error);
-        res.send({status:"database wala fucked"});
+        res.send({status: error});
     }
 })
 
