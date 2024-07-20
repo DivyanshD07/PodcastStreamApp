@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { HomeRounded, CloseRounded, LogoutRounded, SearchRounded, FavoriteRounded, UploadRounded, LightModeRounded, DarkModeRounded, CloudUploadRounded } from '@mui/icons-material';
 import { FaMicrophone } from 'react-icons/fa';
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const MenuContainer = styled.div`
     display: flex;
@@ -80,6 +82,11 @@ const HR = styled.div`
 
 const Sidebar = ({ menuOpen, setMenuOpen, setDarkMode, darkMode }) => {
 
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        window.localStorage.clear();
+        navigate("/login");
+    }
     const menuItems = [
         {
             link: "/",
@@ -110,7 +117,7 @@ const Sidebar = ({ menuOpen, setMenuOpen, setDarkMode, darkMode }) => {
             icon: darkMode ? <LightModeRounded /> : <DarkModeRounded />,
         },
         {
-            fun: () => console.log("log out"),
+            fun: () => handleLogout(),
             name: "Log Out",
             icon: <LogoutRounded />
         },

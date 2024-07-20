@@ -14,6 +14,7 @@ import DisplayPodcast from "./pages/DisplayPodcast";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import UserData from "./pages/UserData";
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const isLoggedIn = window.localStorage.setItem("loggedIn");
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -61,6 +63,7 @@ function App() {
               <Route path="/showpodcasts/:type" exact element={<DisplayPodcast/>} />
               <Route path="/login" exact element={<Login />} />
               <Route path="/signup" exact element={<Signup />} />
+              <Route path="/user-data" exaxt element={<UserData />} />
             </Routes>
           </Frame>
         </Container>

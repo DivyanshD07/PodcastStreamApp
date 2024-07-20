@@ -66,21 +66,21 @@ app.post("/register", async(req, res) => {
             password: encyptPassword,
         }
         );
-        res.send({status: "ok"});
-    }catch(error){
+        res.send({status: "ok", User});
+    } catch(error){
         console.log(error);
         res.send({status: error});
     }
 })
 
-app.post("/login", async(res, req) => {
-    const [email, password] = req.body;
+app.post("/login", async(req, res) => {
+    const {email, password} = req.body;
     const user = await User.findOne({ email });
     if(!user) {
         return res.json({ error : "User not found" });
     }
     if(await bcrypt.compare(password, user.password)) {
-        const token = jwt.sign({}, JWT_SECRET);
+        const token = jwt.sign({email: user.email}, JWT_SECRET);
 
         if(res.status(201)) { //201 means request is successful
             return res.json({ status: "ok", data: token});
@@ -90,6 +90,22 @@ app.post("/login", async(res, req) => {
     }
     res.json({ status: "error", error: "Invalid Password" });
 });
+
+app.post("/user-data", async(req, res) => {
+    const {token} = req.body;
+    try {
+        const user = jwt.verify(token, JWT_SECRET);
+        const userEmail = user.email;
+        User.findOne({ email: userEmail }).
+        then((data) => {
+            res.send({ status: "ok", data: data});
+        }).catch((error) => {
+            res.send({ status:"error", data: error });
+        });
+    } catch (error) {
+        
+    }
+})
 
 
 

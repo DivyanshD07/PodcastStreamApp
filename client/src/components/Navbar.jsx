@@ -45,7 +45,7 @@ const Navbar = ({menuOpen, setMenuOpen}) => {
             <IconButton onClick={() => setMenuOpen(!menuOpen)}>
                 <Menu />
             </IconButton>
-
+            
             <ButtonDiv>
                 <PersonRounded />
                 <Link to={"/login"}>

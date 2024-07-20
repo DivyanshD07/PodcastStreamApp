@@ -69,7 +69,7 @@ const Signup = () => {
     const [popupMessage, setPopupMessage] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const [changeLink, setChangeLink] = useState(false);
-    const Route = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -122,7 +122,7 @@ const Signup = () => {
         if (showPopup && changeLink) {
             setShowPopup(false);
             setChangeLink(false);
-            Route("/login");
+            navigate("/login");
         } else{
             setShowPopup(false);
         }
