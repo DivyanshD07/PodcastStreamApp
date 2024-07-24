@@ -35,7 +35,7 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
-  const isLoggedIn = window.localStorage.setItem("loggedIn");
+  const isLoggedIn = window.localStorage.setItem("loggedIn", false);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
